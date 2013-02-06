@@ -1,5 +1,6 @@
 
 import numpy
+from cffi import FFI
 import ctypes
 
 _libbetag = numpy.ctypeslib.load_library('libbetag', '.')
@@ -12,6 +13,8 @@ _libbetag.dist_beta.argtypes = [numpy.ctypeslib.ndpointer(dtype=numpy.float, ndi
                                     numpy.ctypeslib.ndpointer(dtype=numpy.float,
                                         ndim=1)]
 _libbetag.dist_beta.restype  =  ctypes.c_void_p
+
+ffi = FFI()
 
 def betag(x, y, genes):
     xc = numpy.asarray(x, dtype=numpy.float)
