@@ -10,18 +10,10 @@ def calc_metric_tensor(g_exp, classes):
     @rtype: one dimensional vector 
     @return: the metric tensor
     """
-    n_genes = len(g_exp)
-    e_g = np.zeros(n_genes)
-    comb_c_1 = list(i.combinations(classes[0], 2))
-    comb_c_2 = list(i.combinations(classes[1], 2))
-    prod_f = list(i.product(classes[0], classes[1]))
-    len_c = len(comb_c_1) + len(comb_c_2)
-    len_f = len(prod_f)
+    comb_c = np.array(list(i.combinations(classes[0], 2)) + list(i.combinations(classes[1], 2)))
+    prod_f = np.array(list(i.product(classes[0], classes[1])))
     
-    e_g = np.zeros(n_genes)
-    for g in range(0, n_genes):
-        e_g[g] = 1./len_c*(np.sum(map(lambda (i,j): np.sqrt((g_exp[g][i] - g_exp[g][j])**2), comb_c_1)) + \
-                            np.sum(map(lambda (i,j): np.sqrt((g_exp[g][i] - g_exp[g][j])**2), comb_c_2))) \
-               - 1./len_f*np.sum(map(lambda (i,j): np.sqrt((g_exp[g][i] - g_exp[g][j])**2), prod_f)) 
-    
-    return np.argsort(e_g)
+    e_g = 1./len(comb_c)*np.sum(np.abs(g_exp[comb_c[:,0],:] - g_exp[comb_c[:,1],:]), axis=0) \
+        - 1./len(prod_f)*np.sum(np.abs(g_exp[prod_f[:,0],:] - g_exp[prod_f[:,1],:]), axis=0) 
+
+    return e_g

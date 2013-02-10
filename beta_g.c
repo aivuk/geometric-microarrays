@@ -1,16 +1,7 @@
 /*#include <stdlib.h>*/
 #include <math.h>
 
-void dist_beta
-(  
-double **X
-, double **Y
-, int genes
-, int nsamplex
-, int nsampley
-, double *beta_g
-)
-{
+void dist_beta(double **X, double **Y, int genes, int nsamplex, int nsampley, double *beta_g) {
     int g; 
     for ( g = 0; g < genes; g++) {
         double x = 0, y = 0, z = 0;
@@ -18,7 +9,7 @@ double **X
 
           for ( i = 0; i < nsamplex - 1; i++) {
               for ( j = i + 1; j < nsamplex; j++) {
-                x += (X[g][i] - X[g][j])*(X[g][i] - X[g][j]);
+                  x += (X[g][i] - X[g][j])*(X[g][i] - X[g][j]);
               }
           }
           x = x /( nsamplex * ( nsamplex - 1. ) );
@@ -41,26 +32,3 @@ double **X
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
