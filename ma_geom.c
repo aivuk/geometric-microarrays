@@ -15,7 +15,7 @@ gsl_vector *calc_metric_tensor(gsl_matrix *gs, gsl_vector *c1, gsl_vector *c2) {
     int gi, i1, i2, exp1i, exp2i;       
     double eg_f, eg_c, egi, nf, nc;
 
-    nf = 1/(c1->size*c2->size);
+    nf = 1./(c1->size*c2->size);
     nc = 1/(gsl_sf_choose(c1->size, 2) + gsl_sf_choose(c2->size, 2));
 
     comb1 = gsl_combination_alloc(c1->size, 2);
@@ -25,6 +25,7 @@ gsl_vector *calc_metric_tensor(gsl_matrix *gs, gsl_vector *c1, gsl_vector *c2) {
         eg_c = 0;
         eg_f = 0;
         egi = 0;
+
         // Calculate the energy part from same classes experiments 
 
         // Class 1 near experiments 
@@ -55,14 +56,15 @@ gsl_vector *calc_metric_tensor(gsl_matrix *gs, gsl_vector *c1, gsl_vector *c2) {
  
         // Calculate the energy part from different classes experiments
 
-        for (i1 = 0; i1 < c1->size; ++ i1) {
+        for (i1 = 0; i1 < c1->size; ++i1) {
             exp1i = gsl_vector_get(c1, i1);
-            for (i2 = 0; i2 < c2->size; ++ i2) { 
+            for (i2 = 0; i2 < c2->size; ++i2) { 
                 exp2i = gsl_vector_get(c2, i2); 
                 eg_f += abs(gsl_matrix_get(gs, exp1i, gi) - gsl_matrix_get(gs, exp2i, gi));
             }
         }
 
+        // Calculate the eg of gene gi
         egi = nc*eg_c - nf*eg_f;
         gsl_vector_set(eg, gi, egi);
     }
