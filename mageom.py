@@ -13,7 +13,7 @@ def calc_metric_tensor(g_exp, classes):
     comb_c = np.array(list(i.combinations(classes[0], 2)) + list(i.combinations(classes[1], 2)))
     prod_f = np.array(list(i.product(classes[0], classes[1])))
     
-    e_g = 1./len(comb_c)*np.sum(np.abs(g_exp[comb_c[:,0],:] - g_exp[comb_c[:,1],:]), axis=0) \
-        - 1./len(prod_f)*np.sum(np.abs(g_exp[prod_f[:,0],:] - g_exp[prod_f[:,1],:]), axis=0) 
+    e_g = np.mean(np.abs(g_exp[comb_c[:,0],:] - g_exp[comb_c[:,1],:]), axis=0) \
+        - np.mean(np.abs(g_exp[prod_f[:,0],:] - g_exp[prod_f[:,1],:]), axis=0) 
 
     return e_g
